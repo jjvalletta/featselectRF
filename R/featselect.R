@@ -74,7 +74,7 @@ mProbes <- function(x, y, nRepeat=100, ...)
 #' \item{impMetric}{2D x nRepeat matrix of variable importance measures for each predictor (permuted and not) 
 #' for every repeat (Note: the permuted variables have the suffix "Perm")}
 #' \item{FWER}{a numeric vector of length D with the family wise error rate computed for every feature}
-#' @references \href{https://academic.oup.com/bioinformatics/article/28/13/1766/234473/Statistical-interpretation-of-machine-learning}{Huynh-Thu VA et al. Bioinformatics 2012}
+#' @references \href{https://doi.org/10.1093/bioinformatics/bts238}{Huynh-Thu VA et al. Bioinformatics 2012}
 #' @export
 #' @examples 
 #' bWant <- iris$Species %in% c("versicolor", "virginica")
