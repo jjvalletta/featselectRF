@@ -1,0 +1,17 @@
+Package: featselectRF
+Title: Feature selection using Random Forests
+Version: 0.0.0.9000
+Authors@R: person("John Joseph", "Valletta", email = "jjvalletta@gmail.com", role = c("aut", "cre"))
+Description: Implements a modifed mProbes (Huynh-Thu VA et al. Bioinformatics 2012) 
+    and xRF (Nguyen et al. The Scientific World Journal 2015) feature selection 
+    algorithm using Random Forests. 
+Depends: R (>= 3.4.1)
+Imports:
+    circlize (>= 0.4.1),
+    randomForest (>= 4.6-12),
+    doParallel (>= 1.0.10),
+    caret (>= 6.0-77),
+License: Free
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
