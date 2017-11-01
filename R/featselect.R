@@ -90,12 +90,15 @@ mProbesParallel <- function(x, y, nRepeat=100, nThread=parallel::detectCores()-1
     D <- dim(x)[2] # no. of features
     
     # Initiate cluster
-    cl <- makeCluster(nThread)
-    registerDoParallel(cl)
+    cl <- parallel::makeCluster(nThread)
+    doParallel::registerDoParallel(cl)
+    
+    # https://stackoverflow.com/questions/30216613/how-to-use-dopar-when-only-import-foreach-in-description-of-a-package
+    `%dopar%` <- foreach::`%dopar%`
     
     # Permute variables and fit forest
-    impMetric <- foreach(i=icount(nRepeat), .packages = "tcltk", .combine=cbind, 
-                         .export=c("randomForest", "importance")) %dopar% 
+    impMetric <- foreach::foreach(i=iterators::icount(nRepeat), .packages = "tcltk", .combine=cbind, 
+                         .export=c("randomForest", "importance")) %dopar%
                          {
                              # Create progress bar first time round
                              if (!exists("pb")) 
@@ -116,7 +119,7 @@ mProbesParallel <- function(x, y, nRepeat=100, nThread=parallel::detectCores()-1
                          }
     
     # Shut connection
-    stopCluster(cl)
+    parallel::stopCluster(cl)
     
     # Name impMetric
     rownames(impMetric) <- c(colnames(x), paste0("Perm", colnames(x)))
