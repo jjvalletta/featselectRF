@@ -11,7 +11,8 @@ Imports:
     circlize (>= 0.4.1),
     doParallel (>= 1.0.10),
     caret (>= 6.0-77),
-    tcltk (>= 3.4.1)
+    tcltk (>= 3.4.1),
+    ROCR (>= 1.0-7)
 License: Free
 Encoding: UTF-8
 LazyData: true

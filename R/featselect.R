@@ -244,7 +244,8 @@ featselectRF <- function(x, y, nRepeat=100, kFold=5, rKeep=0.3, bParallel=TRUE,
         # get vector of maximum importance score of random feature from each repeat
         maxPerm <- apply(impMetricRandom, 2, max)
         # calculate statistical significance scores using Wilcoxon rank-sum test
-        pValues[[des]] <- apply(impMetricReal, 1, function(x) wilcox.test(x, maxPerm, paired=T, alternative="greater")$p.value)
+        pValues[[des]] <- apply(impMetricReal, 1, 
+                                function(x) wilcox.test(x, maxPerm, paired=T, alternative="greater")$p.value)
         pValues[[des]] <- pValues[[des]]*D # Bonferroni correction                
         topPredictors[[des]] <- colnames(xTrain)[which(pValues[[des]]<pCutOff)] 
         
