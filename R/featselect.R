@@ -293,7 +293,7 @@ featselectRF <- function(x, y, nRepeat=100, kFold=5, rKeep=0.3, bParallel=TRUE,
         {
             # No predictors chosen
             AUC[[des]] <- NA
-            confMatrix[[des]] <- NA
+            confMatrix[[des]] <- matrix(0, nrow=2, ncol=3) # expecting a matrix 
             ROC[[des]] <- NA
         }
     }
