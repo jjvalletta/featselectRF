@@ -37,5 +37,5 @@ out <- mProbesParallel(x, y, 100, 4)
 
 }
 \references{
-\href{https://academic.oup.com/bioinformatics/article/28/13/1766/234473/Statistical-interpretation-of-machine-learning}{Huynh-Thu VA et al. Bioinformatics 2012}
+\href{https://doi.org/10.1093/bioinformatics/bts238}{Huynh-Thu VA et al. Bioinformatics 2012}
 }
