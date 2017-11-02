@@ -268,7 +268,8 @@ featselectRF <- function(x, y, nRepeat=100, kFold=5, rKeep=0.3, bParallel=TRUE,
                 dfTest <- data.frame(x=xTest)
                 yPred <- predict(fit, newdata=dfTest, type="response")
                 # Test confusion matrix
-                predClass <- ifelse(yPred>0.5, levels(yTrain)[2], levels(yTrain)[1])
+                predClass <- as.factor(ifelse(yPred>0.5, levels(yTrain)[2], levels(yTrain)[1]))
+                levels(predClass) <- levels(yTest) # to cater for case when all preds are class A
                 confusionMatrix <- table(yTest, predClass)
                 classError <- 1 - diag(prop.table(confusionMatrix, 1)) # Compute misclassification rates
                 confMatrix[[des]] <- cbind(confusionMatrix, classError)
