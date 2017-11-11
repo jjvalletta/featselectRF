@@ -286,28 +286,35 @@ featselectRF <- function(x, y, nRepeat=100, kFold=5, rKeep=0.3, bParallel=TRUE,
             predObj <- ROCR::prediction(yPred, yTest)
             AUC[[des]] <- round(unlist(slot(ROCR::performance(predObj, "auc"), "y.values")), digits=3)
             ROC[[des]] <- ROCR::performance(predObj, "tpr", "fpr")
-            
-            # Save yTest/yPred all
-            yTestAll <- c(yTestAll, yTest)
-            yPredAll <- c(yPredAll, yPred)
+            yPredAll <- c(yPredAll, yPred) # save predictions
         } else 
         {
             # No predictors chosen
+            yPredAll <- c(yPredAll, rep(NA, length(yTest))) # add NAs
             AUC[[des]] <- NA
             confMatrix[[des]] <- matrix(0, nrow=2, ncol=3) # expecting a matrix 
             ROC[[des]] <- NA
         }
+        yTestAll <- c(yTestAll, yTest) # save test outcome
     }
     
     #=====================================#
     # Compute average ROC/AUC/confusion matrix
     #=====================================#
-    predObj <- ROCR::prediction(yPredAll, yTestAll) 
-    AUC[["Average"]] <- round(unlist(slot(ROCR::performance(predObj, "auc"), "y.values")), digits=3)
-    ROC[["Average"]] <-  ROCR::performance(predObj, "tpr","fpr") 
-    confMatrix[["Average"]] <- Reduce('+', confMatrix)
-    confMatrix[["Average"]][, 3] <- 1 - diag(prop.table(confMatrix[["Average"]][, 1:2], 1))
-        
+    if (all(is.na(yPredAll)))
+    {
+        AUC[["Average"]] <- NA
+        ROC[["Average"]] <- NA
+        confMatrix[["Average"]] <- NA
+    } else
+    {
+        predObj <- ROCR::prediction(yPredAll, yTestAll) 
+        AUC[["Average"]] <- round(unlist(slot(ROCR::performance(predObj, "auc"), "y.values")), digits=3)
+        ROC[["Average"]] <-  ROCR::performance(predObj, "tpr","fpr") 
+        confMatrix[["Average"]] <- Reduce('+', confMatrix)
+        confMatrix[["Average"]][, 3] <- 1 - diag(prop.table(confMatrix[["Average"]][, 1:2], 1))  
+    }
+    
     #=====================================#
     # Combine results in a list and return
     #=====================================#
