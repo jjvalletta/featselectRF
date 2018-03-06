@@ -36,10 +36,7 @@ mProbes <- function(x, y, nRepeat=100, ...)
         # Initialise set of artificial/permuted variables
         xTrainPerm <- matrix(NA, nrow=N, ncol=D) 
         colnames(xTrainPerm) <- paste0("Perm", colnames(x))
-        for (iFeat in 1:D) # permute every feature
-        {
-            xTrainPerm[, iFeat] <- x[sample.int(N), iFeat]    
-        }
+        xTrainPerm <- as.data.frame(lapply(x, function (x) {x[sample.int(N)]}))
         xTrainFull <- cbind(x, xTrainPerm) # xTrain + xTrainPerm
         fit <- randomForest::randomForest(y=y, x=xTrainFull, importance=TRUE, ...)
         impMetric[, iRepeat] <- randomForest::importance(fit, type=1, scale=F) 
@@ -109,7 +106,7 @@ mProbesParallel <- function(x, y, nRepeat=100, nThread=parallel::detectCores()-1
                              setTkProgressBar(pb, i, sprintf("Iteration %d/%d", i, nRepeat))
                              
                              # Create artificial/permuted variables
-                             xTrainPerm <- apply(x, 2, function(x) {x[sample.int(length(x))]})
+                             xTrainPerm <- as.data.frame(lapply(x, function (x) {x[sample.int(length(x))]}))
                              colnames(xTrainPerm) <- paste0("Perm", colnames(x))
                              
                              # Append artificial variables to original data and fit RF
